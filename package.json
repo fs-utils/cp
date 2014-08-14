@@ -1,0 +1,36 @@
+{
+  "name": "fs-cp",
+  "description": "",
+  "version": "0.0.0",
+  "author": {
+    "name": "Jonathan Ong",
+    "email": "me@jongleberry.com",
+    "url": "http://jongleberry.com",
+    "twitter": "https://twitter.com/jongleberry"
+  },
+  "license": "MIT",
+  "repository": "fs-utils/cp",
+  "dependencies": {
+    "mz": "1",
+    "native-or-bluebird": "1"
+  },
+  "devDependencies": {
+    "mkdirp": "0",
+    "rimraf": "2",
+    "istanbul": "0",
+    "mocha": "1"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter dot"
+  },
+  "keywords": [
+    "fs",
+    "cp",
+    "copy"
+  ],
+  "files": [
+    "index.js"
+  ]
+}
