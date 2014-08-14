@@ -1,6 +1,6 @@
 {
   "name": "fs-cp",
-  "description": "",
+  "description": "copy a file",
   "version": "0.0.0",
   "author": {
     "name": "Jonathan Ong",
