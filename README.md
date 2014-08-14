@@ -9,7 +9,7 @@
 [![Downloads][downloads-image]][downloads-url]
 [![Gittip][gittip-image]][gittip-url]
 
-Copy files with error handling and promise support.
+Copy files with error handling, mkdirp, and promise support.
 Specifically, if the process crashes while you're copying a file,
 you won't end up with half-written copied files.
 It should also avoid race conditions, meaning

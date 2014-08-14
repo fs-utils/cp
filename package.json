@@ -12,6 +12,7 @@
   "repository": "fs-utils/cp",
   "dependencies": {
     "mz": "1",
+    "mkdirp-then": "1",
     "native-or-bluebird": "1"
   },
   "devDependencies": {

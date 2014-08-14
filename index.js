@@ -1,6 +1,7 @@
 
 var fs = require('mz/fs')
 var path = require('path')
+var mkdirp = require('mkdirp-then')
 var Promise = require('native-or-bluebird')
 
 module.exports = function (src, dest) {
@@ -10,31 +11,33 @@ module.exports = function (src, dest) {
   // it'll be saved to the same folder, then renamed.
   var tmp = dest + affix()
 
-  return new Promise(function (resolve, reject) {
-    var read = fs.createReadStream(src)
-      .on('error', onerror)
-    var write = fs.createWriteStream(tmp)
-      .on('error', onerror)
-      .on('close', onclose)
+  return mkdirp(path.dirname(dest)).then(function () {
+    return new Promise(function (resolve, reject) {
+      var read = fs.createReadStream(src)
+        .on('error', onerror)
+      var write = fs.createWriteStream(tmp)
+        .on('error', onerror)
+        .on('close', onclose)
 
-    read.pipe(write)
+      read.pipe(write)
 
-    function onerror(err) {
-      fs.unlink(tmp)
-      cleanup()
-      reject(err)
-    }
+      function onerror(err) {
+        fs.unlink(tmp)
+        cleanup()
+        reject(err)
+      }
 
-    function onclose() {
-      cleanup()
-      resolve()
-    }
+      function onclose() {
+        cleanup()
+        resolve()
+      }
 
-    function cleanup() {
-      read.removeListener('error', onerror)
-      write.removeListener('error', onerror)
-      write.removeListener('close', onclose)
-    }
+      function cleanup() {
+        read.removeListener('error', onerror)
+        write.removeListener('error', onerror)
+        write.removeListener('close', onclose)
+      }
+    })
   }).then(function () {
     return fs.rename(tmp, dest)
   })
