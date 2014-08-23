@@ -9,19 +9,27 @@
 [![Downloads][downloads-image]][downloads-url]
 [![Gittip][gittip-image]][gittip-url]
 
-Copy files with error handling, mkdirp, and promise support.
-Specifically, if the process crashes while you're copying a file,
-you won't end up with half-written copied files.
-It should also avoid race conditions, meaning
-you should be able to `cp` the same files at the same time and it'll be fine.
+A tiny utility to help you copy files:
+
+- Always cleans up file descriptors
+- `mkdir -p` support
+- Promise support
+- No half-written files
+- Insusceptible to race conditions, meaning you can do multiple copies fine
 
 ## API
 
 ```js
 var cp = require('fs-cp')
 
+// file to file
 cp('package.json', 'package2.json').then(function () {
 
+})
+
+// stream to file
+cp(res, 'response.json').then(function () {
+  
 })
 ```
 
