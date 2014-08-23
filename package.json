@@ -16,6 +16,7 @@
     "native-or-bluebird": "1"
   },
   "devDependencies": {
+    "bluebird": "2",
     "mkdirp": "0",
     "rimraf": "2",
     "istanbul": "0",
