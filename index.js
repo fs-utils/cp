@@ -6,7 +6,15 @@ var mkdirp = require('mkdirp-then')
 var Promise = require('native-or-bluebird')
 
 module.exports = function (src, dest) {
-  if (typeof src === 'string') src = path.resolve(src)
+  var read
+  var write
+  if (typeof src === 'string') {
+    src = path.resolve(src)
+  } else if (src && typeof src.pipe === 'function') {
+    read = src
+  } else {
+    throw new TypeError('only filenames and read streams supported')
+  }
   dest = path.resolve(dest)
   // where the file will be temporarily copied to
   // it'll be saved to the same folder, then renamed.
@@ -14,37 +22,31 @@ module.exports = function (src, dest) {
 
   return mkdirp(path.dirname(dest)).then(function () {
     return new Promise(function (resolve, reject) {
-      var read = typeof src === 'string'
-        ? fs.createReadStream(src)
-        : src
-      read.on('error', onerror)
-      var write = fs.createWriteStream(tmp)
-        .on('error', onerror)
-        .on('close', onclose)
+      read = read || fs.createReadStream(src)
+      read.on('error', onfinish)
+      write = fs.createWriteStream(tmp)
+      write.on('error', onfinish)
+      write.on('close', onfinish)
 
       read.pipe(write)
 
-      function onerror(err) {
-        fs.unlink(tmp)
-        cleanup()
-        destroy(read)
-        destroy(write)
-        reject(err)
-      }
-
-      function onclose() {
-        cleanup()
-        resolve()
-      }
-
-      function cleanup() {
-        read.removeListener('error', onerror)
-        write.removeListener('error', onerror)
-        write.removeListener('close', onclose)
+      function onfinish(err) {
+        read.removeListener('error', onfinish)
+        write.removeListener('error', onfinish)
+        write.removeListener('close', onfinish)
+        if (err instanceof Error) reject(err)
+        else resolve(dest)
       }
     })
   }).then(function () {
     return fs.rename(tmp, dest)
+  }).catch(function (err) {
+    // always destroy the streams
+    read && destroy(read)
+    write && destroy(write)
+    // always clean up temp files
+    fs.unlink(tmp).catch(noop)
+    throw err
   })
 }
 
@@ -57,3 +59,5 @@ function affix() {
 function random() {
   return Math.random().toString(36).slice(2)
 }
+
+function noop() {}

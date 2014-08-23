@@ -1,6 +1,7 @@
 
 var fs = require('mz/fs')
 var path = require('path')
+var assert = require('assert')
 
 var cp = require('..')
 
@@ -21,6 +22,20 @@ describe('fs-cp', function () {
     var out = path.join(build, 'test2.js')
     return cp(fs.createReadStream(__filename), out).then(function () {
       return fs.stat(out)
+    })
+  })
+
+  it('should throw if the src is not a string or stream', function () {
+    assert.throws(function () {
+      cp(null, build)
+    })
+  })
+
+  it('should handle errors', function () {
+    return cp(__filename, build).then(function () {
+      throw new Error('boom')
+    }).catch(function (err) {
+      assert.equal(err.code, 'EISDIR')
     })
   })
 })
