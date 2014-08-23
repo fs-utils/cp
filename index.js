@@ -1,6 +1,7 @@
 
 var fs = require('mz/fs')
 var path = require('path')
+var destroy = require('destroy')
 var mkdirp = require('mkdirp-then')
 var Promise = require('native-or-bluebird')
 
@@ -26,6 +27,8 @@ module.exports = function (src, dest) {
       function onerror(err) {
         fs.unlink(tmp)
         cleanup()
+        destroy(read)
+        destroy(write)
         reject(err)
       }
 
