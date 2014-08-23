@@ -5,7 +5,7 @@ var mkdirp = require('mkdirp-then')
 var Promise = require('native-or-bluebird')
 
 module.exports = function (src, dest) {
-  src = path.resolve(src)
+  if (typeof src === 'string') src = path.resolve(src)
   dest = path.resolve(dest)
   // where the file will be temporarily copied to
   // it'll be saved to the same folder, then renamed.
@@ -13,8 +13,10 @@ module.exports = function (src, dest) {
 
   return mkdirp(path.dirname(dest)).then(function () {
     return new Promise(function (resolve, reject) {
-      var read = fs.createReadStream(src)
-        .on('error', onerror)
+      var read = typeof src === 'string'
+        ? fs.createReadStream(src)
+        : src
+      read.on('error', onerror)
       var write = fs.createWriteStream(tmp)
         .on('error', onerror)
         .on('close', onclose)
