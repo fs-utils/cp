@@ -40,6 +40,8 @@ module.exports = function (src, dest) {
     })
   }).then(function () {
     return fs.rename(tmp, dest)
+  }).then(function () {
+    return dest;
   }).catch(function (err) {
     // always destroy the streams
     read && destroy(read)
