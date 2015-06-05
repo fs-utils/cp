@@ -11,9 +11,9 @@
   "license": "MIT",
   "repository": "fs-utils/cp",
   "dependencies": {
-    "mz": "1",
     "destroy": "1",
     "mkdirp-then": "1",
+    "mz": "^2.0.0",
     "native-or-bluebird": "1"
   },
   "devDependencies": {
