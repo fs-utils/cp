@@ -11,17 +11,17 @@
   "license": "MIT",
   "repository": "fs-utils/cp",
   "dependencies": {
-    "destroy": "1",
-    "mkdirp-then": "1",
+    "destroy": "^1.0.0",
+    "mkdirp-then": "^1.0.0",
     "mz": "^2.0.0",
-    "native-or-bluebird": "1"
+    "native-or-bluebird": "^1.0.0"
   },
   "devDependencies": {
     "bluebird": "^3.1.1",
-    "istanbul": "0",
-    "mkdirp": "0",
+    "istanbul": "^0.4.2",
+    "mkdirp": "^0.5.1",
     "mocha": "^2.2.5",
-    "rimraf": "2"
+    "rimraf": "^2.0.0"
   },
   "scripts": {
     "test": "mocha --reporter spec",
