@@ -11,10 +11,10 @@
   "license": "MIT",
   "repository": "fs-utils/cp",
   "dependencies": {
+    "any-promise": "^1.1.0",
     "destroy": "^1.0.0",
     "mkdirp-then": "^1.0.0",
-    "mz": "^2.0.0",
-    "native-or-bluebird": "^1.0.0"
+    "mz": "^2.0.0"
   },
   "devDependencies": {
     "bluebird": "^3.1.1",
